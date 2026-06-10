@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_ribbon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:background="@color/royal_blue"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="@string/bluelink_for_pebble"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/royal_blue" />
+
+            <EditText
+                android:id="@+id/et_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:autofillHints=""
+                android:hint="@string/bluelink_email"
+                android:inputType="textEmailAddress"
+                android:minWidth="488dp"
+                android:maxWidth="488dp"
+                android:minHeight="48dp"
+                android:textColorHint="#00796B" />
+
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:minWidth="488dp"
+                android:maxWidth="488dp"
+                android:autofillHints=""
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:minHeight="48dp" />
+
+            <EditText
+                android:id="@+id/et_vin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:minWidth="488dp"
+                android:maxWidth="488dp"
+                android:autofillHints=""
+                android:hint="@string/vin_e_g_5nms"
+                android:inputType="textCapCharacters"
+                android:minHeight="48dp" />
+
+            <EditText
+                android:id="@+id/et_pin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:minWidth="488dp"
+                android:maxWidth="488dp"
+                android:autofillHints=""
+                android:hint="@string/bluelink_pin"
+                android:inputType="numberPassword"
+                android:maxLength="4"
+                android:minHeight="48dp" />
+
+            <Button android:id="@+id/btn_save"
+                android:text="@string/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:minWidth="200dp"
+                android:layout_marginTop="16dp"/>
+
+            <Button android:id="@+id/btn_test"
+                android:text="@string/test_connection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:minWidth="200dp"/>
+
+            <TextView android:id="@+id/tv_status"
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
