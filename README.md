@@ -21,6 +21,8 @@ Android only -- I don't know how to program for iOS and don't know if this solut
 4. After a successful test, you can close the app. The service will wake when commands are issued from your watch.
 
 ## Credits
+Developed and maintained by Kevin Alexander Bizzoco (EnderAccord or Ender97)
+
 API logic is based on the fantastic `egmp-bluelink-scriptable` project by andyfase. https://github.com/andyfase/egmp-bluelink-scriptable
 
 This application and its creator are not affiliated with Hyundai Motor Company. 
