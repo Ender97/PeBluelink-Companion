@@ -33,4 +33,4 @@ This project uses:
 **AI Disclosure:** 
 This app was developed with assistance from Anthropic's Claude Code 4.6 and Google's Gemini 3.
 
-MIT License - see [LICENSE](LICENSE) file for details.
+GNU License - see [LICENSE](LICENSE) file for details.
