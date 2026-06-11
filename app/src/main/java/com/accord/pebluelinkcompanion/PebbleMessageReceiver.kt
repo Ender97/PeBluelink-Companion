@@ -24,6 +24,8 @@ private const val KEY_CHARGE_TIME  = 7
 private const val KEY_TWELVE_SOC   = 8
 private const val KEY_CLIMATE_TEMP = 9
 
+private const val KEY_EV_SOC       = 10
+
 val WATCH_APP_UUID: UUID = UUID.fromString("765d084f-3d8c-4da8-a278-6b45ec18744c")
 
 private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -74,6 +76,7 @@ private suspend fun pushStatus(context: Context, repo: BluelinkRepository) {
             dict.addInt32(KEY_CHARGING,    if (status.charging) 1 else 0)
             dict.addInt32(KEY_CHARGE_TIME, status.chargeTimeMins)
             dict.addInt32(KEY_TWELVE_SOC,  status.twelveSoc)
+            dict.addInt32(KEY_EV_SOC,      status.soc)
             PebbleKit.sendDataToPebble(context, WATCH_APP_UUID, dict)
             Log.d(TAG, "Status pushed: $status")
         }

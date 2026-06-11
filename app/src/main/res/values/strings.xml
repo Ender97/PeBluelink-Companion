@@ -7,5 +7,7 @@
     <string name="bluelink_email">Bluelink email</string>
     <string name="vin_e_g_5nms">VIN (e.g. 5NMS...)</string>
     <string name="bluelink_pin">Bluelink PIN</string>
+    <string name="region">Region</string>
+    <string name="credentials">Credentials</string>
     <string name="success_message">You may now close this app and continue on your Pebble.</string>
 </resources>

@@ -42,16 +42,17 @@ class MainActivity : ComponentActivity() {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .height(120.dp)
                             .background(colorResource(id = R.color.royal_blue))
-                            .statusBarsPadding()
-                            .padding(vertical = 24.dp),
-                        contentAlignment = Alignment.Center
+                            .statusBarsPadding(),
+                        contentAlignment = Alignment.BottomCenter
                     ) {
                         Text(
                             text = stringResource(id = R.string.app_name),
                             color = Color.White,
                             fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(bottom = 16.dp)
                         )
                     }
                     Scaffold(modifier = Modifier.weight(1f)) { innerPadding ->

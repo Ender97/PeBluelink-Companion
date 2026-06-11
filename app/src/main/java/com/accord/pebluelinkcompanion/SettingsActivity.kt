@@ -7,8 +7,12 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,19 +20,26 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.core.content.ContextCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import com.getpebble.android.kit.PebbleKit
 import com.getpebble.android.kit.PebbleKit.PebbleDataReceiver
+import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var repo: BluelinkRepository
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var regionSpinner: Spinner
     private lateinit var usernameField: EditText
     private lateinit var passwordField: EditText
     private lateinit var pinField:      EditText
@@ -36,6 +47,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var saveButton:    Button
     private lateinit var testButton:    Button
     private lateinit var statusText:    TextView
+    private lateinit var logText:       TextView
     
     private var dataReceiver: PebbleDataReceiver? = null
 
@@ -56,14 +68,37 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.tv_ribbon)) { v, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(0, bars.top, 0, 0)
+        val ribbon: View = findViewById(R.id.tv_ribbon)
+        ViewCompat.setOnApplyWindowInsetsListener(ribbon) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(top = systemBars.top)
             insets
         }
 
         repo = BluelinkRepository(applicationContext)
 
+        drawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        
+        ViewCompat.setOnApplyWindowInsetsListener(navView) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(0, systemBars.top, 0, 0)
+            insets
+        }
+
+        val menuButton: ImageButton = findViewById(R.id.btn_menu)
+        menuButton.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+            updateLogs()
+        }
+
+        logText = findViewById(R.id.tv_logs)
+        findViewById<Button>(R.id.btn_clear_logs).setOnClickListener {
+            AppLogger.clear()
+            updateLogs()
+        }
+
+        regionSpinner = findViewById(R.id.spinner_region)
         usernameField = findViewById(R.id.et_username)
         passwordField = findViewById(R.id.et_password)
         pinField      = findViewById(R.id.et_pin)
@@ -71,6 +106,12 @@ class SettingsActivity : AppCompatActivity() {
         saveButton    = findViewById(R.id.btn_save)
         testButton    = findViewById(R.id.btn_test)
         statusText    = findViewById(R.id.tv_status)
+
+        val regions = BluelinkRegion.values()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, regions.map { it.label })
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        regionSpinner.adapter = adapter
+        regionSpinner.setSelection(regions.indexOf(repo.currentRegion))
 
         usernameField.setText(repo.username)
         vinField.setText(repo.vin)
@@ -81,6 +122,19 @@ class SettingsActivity : AppCompatActivity() {
         testButton.setOnClickListener { testConnection()  }
         
         checkPermissionsAndStartService()
+        
+        lifecycleScope.launch {
+            while(true) {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    updateLogs()
+                }
+                delay(2000)
+            }
+        }
+    }
+
+    private fun updateLogs() {
+        logText.text = AppLogger.getLogs().ifEmpty { "No logs yet..." }
     }
 
     override fun onResume() {
@@ -128,6 +182,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun saveCredentials() {
+        val selectedRegion = BluelinkRegion.values()[regionSpinner.selectedItemPosition]
         val username = usernameField.text.toString().trim()
         val password = passwordField.text.toString()
         val pin      = pinField.text.toString().trim()
@@ -142,12 +197,14 @@ class SettingsActivity : AppCompatActivity() {
             return
         }
 
+        repo.region   = selectedRegion.name
         repo.username = username
         repo.vin      = vin
         if (password.isNotBlank()) repo.password = password
         if (pin.isNotBlank())      repo.pin      = pin
 
         statusText.text = "Credentials saved."
+        AppLogger.log("Credentials saved for region: ${selectedRegion.label}")
         Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show()
     }
 

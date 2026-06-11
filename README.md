@@ -35,4 +35,7 @@ This project uses:
 **AI Disclosure:** 
 This app was developed with assistance from Anthropic's Claude Code 4.6 and Google's Gemini 3.
 
+## Privacy Policy and License Information
+See the [Privacy Policy](PRIVACY_POLICY.md) for more details on how your credentials are handled.
+
 GNU License - see [LICENSE](LICENSE) file for details.
