@@ -1,12 +1,12 @@
 # PeBluelink Companion
 
-This app is the open source companion application required for Pebble watches to interact with Hyundai Bluelink compatible vehicles. It passes commands from your watch to the Hyundai server. Requires a Bluelink subscription and is only confirmed to work in the USA. Canada and Europe regions are currently in BETA and are not guaranteed to work. 
+This app is the open source companion application for [PeBluelink](https://github.com/Ender97/PeBluelink). It is required for Pebble watches to interact with Hyundai Bluelink compatible vehicles. It passes commands from your watch to the Hyundai servers. Requires a Bluelink subscription and is only confirmed to work in the USA. Canada and Europe regions are currently in BETA and are not guaranteed to work. 
 
 Android only -- I don't know how to program for iOS and don't know if this solution is even possible there.
 
 ## Features
 - Fetches status updates and allows for your Pebble to issue remote commands.
-- Persistent foreground service to listen for Pebble watch commands.
+- Optimized to listen for Pebble watch commands without a constant foreground service.
 - Secure credential storage using `EncryptedSharedPreferences`.
 
 ## Requirements
